@@ -32,15 +32,12 @@ cc.Class({
   // LIFE-CYCLE CALLBACKS:
 
   onLoad() {
-    const manager = cc.director.getPhysicsManager();
-    manager.enabled = true;
+    const collider = cc.director.getCollisionManager();
+    collider.enabled = true;
+    collider.enabledDebugDraw = true;
+    collider.enabledDrawBoundingBox = true;
 
-    manager.debugDrawFlags =
-      cc.PhysicsManager.DrawBits.e_aabbBit |
-      cc.PhysicsManager.DrawBits.e_pairBit |
-      cc.PhysicsManager.DrawBits.e_centerOfMassBit |
-      cc.PhysicsManager.DrawBits.e_jointBit |
-      cc.PhysicsManager.DrawBits.e_shapeBit;
+    cc.director.getPhysicsManager().enabled = true;
   },
 
   start() {}

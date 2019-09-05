@@ -12,7 +12,7 @@ cc.Class({
   extends: cc.Component,
 
   properties: {
-    deltaSpeed: 100
+    deltaSpeed: 10
     // foo: {
     //     // ATTRIBUTES:
     //     default: null,        // The default value will be used only when the component attaching
@@ -37,10 +37,10 @@ cc.Class({
   onKeyDown(event) {
     switch (event.keyCode) {
       case cc.macro.KEY.w:
-        this.getBody().linearVelocity = cc.v2(0, this.deltaSpeed);
+        this.speed = this.deltaSpeed;
         break;
       case cc.macro.KEY.s:
-        this.getBody().linearVelocity = cc.v2(0, -this.deltaSpeed);
+        this.speed = -this.deltaSpeed;
         break;
     }
   },
@@ -49,7 +49,7 @@ cc.Class({
     switch (event.keyCode) {
       case cc.macro.KEY.w:
       case cc.macro.KEY.s:
-        this.getBody().linearVelocity = cc.v2(0, 0);
+        this.speed = 0;
         break;
     }
   },
@@ -57,6 +57,8 @@ cc.Class({
   // LIFE-CYCLE CALLBACKS:
 
   onLoad: function() {
+    this.speed = 0;
+
     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
   },
@@ -66,7 +68,39 @@ cc.Class({
     cc.systemEvent.off(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
   },
 
-  start() {}
+  onCollisionEnter: function(other, self) {
+    console.log("on collision enter");
+    //console.log("knight aabb:", self.world.aabb);
+    //console.log("knight preAabb:", self.world.preAabb);
 
-  // update (dt) {},
+    //console.log("roof aabb:", other.world.aabb);
+    //console.log("roof preAabb:", other.world.preAabb);
+
+    //console.log("node y", this.node.y);
+    //console.log("node parent y", this.node.parent.y);
+
+    //console.log("parent node", this.node.parent);
+
+    this.node.y =
+      other.world.preAabb.yMin - this.node.parent.y - this.node.height / 2 - 1;
+    this.speed = 0;
+    this.collision = true;
+    //this.getBody().linearVelocity = cc.v2(0, 0);
+  },
+
+  onCollisionStay: function(other, self) {
+    console.log("on collision stay");
+    //this.getBody().linearVelocity = cc.v2(0, 0);
+  },
+  onCollisionExit: function(other) {
+    this.collision = false;
+    console.log("on collision exit");
+  },
+  start() {},
+
+  update(dt) {
+    if (!this.collision) {
+      this.node.y += this.speed * dt;
+    }
+  }
 });
