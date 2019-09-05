@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "knight_walk",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.75,
+  "sample": 8,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "c074b355-b544-48d6-9295-4eb726fc1675"
+            }
+          },
+          {
+            "frame": 0.125,
+            "value": {
+              "__uuid__": "c93f43c2-c50c-41dd-9674-f017e33183b2"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "a60422f5-81a1-4da9-b424-369a754f252d"
+            }
+          },
+          {
+            "frame": 0.375,
+            "value": {
+              "__uuid__": "687beede-05b8-4267-88e5-c5de6c6ab465"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "7391cf08-6d45-4efd-824c-9772410b09d9"
+            }
+          },
+          {
+            "frame": 0.625,
+            "value": {
+              "__uuid__": "a7f90b45-7d57-46c2-88e3-4897ad182ec2"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
