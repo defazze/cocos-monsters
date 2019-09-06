@@ -8,6 +8,8 @@
 //  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
+import { MEGA } from "./Test";
+
 cc.Class({
   extends: cc.Component,
 
@@ -69,7 +71,14 @@ cc.Class({
   },
 
   onCollisionEnter: function(other, self) {
-    console.log("on collision enter");
+    const selfAabb = self.world.aabb;
+    const selfPreAabb = self.world.preAabb;
+    const otherAabb = other.world.aabb;
+    const otherPreAabb = other.world.preAabb;
+
+    selfPreAabb.y = selfAabb.y;
+    otherPreAabb.y = otherAabb.y;
+
     //console.log("knight aabb:", self.world.aabb);
     //console.log("knight preAabb:", self.world.preAabb);
 
@@ -81,10 +90,19 @@ cc.Class({
 
     //console.log("parent node", this.node.parent);
 
-    this.node.y =
-      other.world.preAabb.yMin - this.node.parent.y - this.node.height / 2 - 1;
-    this.speed = 0;
-    this.collision = true;
+    if (cc.Intersection.rectRect(selfPreAabb, otherPreAabb)) {
+      if (this.speed > 0) {
+        this.node.y =
+          otherPreAabb.yMin - this.node.parent.y - this.node.height / 2 - 1;
+      } else if (this.speed < 0) {
+        this.node.y =
+          otherPreAabb.yMax - this.node.parent.y + this.node.height / 2 + 1;
+      }
+
+      this.speed = 0;
+      this.collision = true;
+    }
+
     //this.getBody().linearVelocity = cc.v2(0, 0);
   },
 
@@ -92,6 +110,7 @@ cc.Class({
     console.log("on collision stay");
     //this.getBody().linearVelocity = cc.v2(0, 0);
   },
+
   onCollisionExit: function(other) {
     this.collision = false;
     console.log("on collision exit");
