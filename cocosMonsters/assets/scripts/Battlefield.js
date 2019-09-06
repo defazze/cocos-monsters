@@ -6,7 +6,10 @@ cc.Class({
       default: null,
       type: cc.Prefab
     },
-
+    monsterPrefab: {
+      default: null,
+      type: cc.Prefab
+    },
     player: {
       default: null,
       type: cc.Node

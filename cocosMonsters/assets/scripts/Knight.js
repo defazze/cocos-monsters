@@ -29,11 +29,9 @@ cc.Class({
     }
   },
 
-  // LIFE-CYCLE CALLBACKS:
-
   onLoad: function() {
     this.speed = 0;
-
+    this.blocks = [];
     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
     cc.systemEvent.on(cc.SystemEvent.EventType.KEY_UP, this.onKeyUp, this);
   },
@@ -71,6 +69,7 @@ cc.Class({
     otherPreAabb.x = otherAabb.x;
 
     if (cc.Intersection.rectRect(selfPreAabb, otherPreAabb)) {
+      this.blocks.push(other);
       this.node.emit("onCollisionX");
       return;
     }
@@ -80,8 +79,13 @@ cc.Class({
 
   onCollisionExit: function(other) {
     this.collision = false;
-    this.node.emit("onCollisionExit");
+    this.blocks = this.blocks.filter(b => b != other);
+
+    if (this.blocks.length == 0) {
+      this.node.emit("onCollisionExit");
+    }
   },
+
   start() {},
 
   setAllowMove(move) {
