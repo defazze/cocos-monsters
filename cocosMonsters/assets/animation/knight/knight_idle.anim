@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "knight_idle",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.75,
+  "sample": 8,
+  "speed": 1,
+  "wrapMode": 1,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "4bf0ef43-94ee-496f-a115-225291c126c9"
+            }
+          },
+          {
+            "frame": 0.125,
+            "value": {
+              "__uuid__": "3f95ca00-aa63-4b65-b6ba-8b9e785ab964"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "32a7d4d4-5751-4793-8ac1-be2a95e667af"
+            }
+          },
+          {
+            "frame": 0.375,
+            "value": {
+              "__uuid__": "f8e6a3cc-1196-4e29-9cb4-f83df53eec1e"
+            }
+          },
+          {
+            "frame": 0.5,
+            "value": {
+              "__uuid__": "6919f26d-bf92-437e-8ef8-9db3a8a26e4a"
+            }
+          },
+          {
+            "frame": 0.625,
+            "value": {
+              "__uuid__": "7c447c7d-266e-411c-8775-9b094a7d1448"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}

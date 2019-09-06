@@ -1,35 +1,8 @@
-// Learn cc.Class:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://docs.cocos2d-x.org/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] https://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] https://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
-
-import { MEGA } from "./Test";
-
 cc.Class({
   extends: cc.Component,
 
   properties: {
     deltaSpeed: 10
-    // foo: {
-    //     // ATTRIBUTES:
-    //     default: null,        // The default value will be used only when the component attaching
-    //                           // to a node for the first time
-    //     type: cc.SpriteFrame, // optional, default is typeof default
-    //     serializable: true,   // optional, default is true
-    // },
-    // bar: {
-    //     get () {
-    //         return this._bar;
-    //     },
-    //     set (value) {
-    //         this._bar = value;
-    //     }
-    // },
   },
 
   getBody() {
@@ -79,17 +52,6 @@ cc.Class({
     selfPreAabb.y = selfAabb.y;
     otherPreAabb.y = otherAabb.y;
 
-    //console.log("knight aabb:", self.world.aabb);
-    //console.log("knight preAabb:", self.world.preAabb);
-
-    //console.log("roof aabb:", other.world.aabb);
-    //console.log("roof preAabb:", other.world.preAabb);
-
-    //console.log("node y", this.node.y);
-    //console.log("node parent y", this.node.parent.y);
-
-    //console.log("parent node", this.node.parent);
-
     if (cc.Intersection.rectRect(selfPreAabb, otherPreAabb)) {
       if (this.speed > 0) {
         this.node.y =
@@ -101,21 +63,31 @@ cc.Class({
 
       this.speed = 0;
       this.collision = true;
+
+      return;
     }
 
-    //this.getBody().linearVelocity = cc.v2(0, 0);
+    selfPreAabb.x = selfAabb.x;
+    otherPreAabb.x = otherAabb.x;
+
+    if (cc.Intersection.rectRect(selfPreAabb, otherPreAabb)) {
+      this.node.emit("onCollisionX");
+      return;
+    }
   },
 
-  onCollisionStay: function(other, self) {
-    console.log("on collision stay");
-    //this.getBody().linearVelocity = cc.v2(0, 0);
-  },
+  onCollisionStay: function(other, self) {},
 
   onCollisionExit: function(other) {
     this.collision = false;
-    console.log("on collision exit");
+    this.node.emit("onCollisionExit");
   },
   start() {},
+
+  setAllowMove(move) {
+    const animation = this.getComponent(cc.Animation);
+    animation.play(move ? "knight_walk" : "knight_idle");
+  },
 
   update(dt) {
     if (!this.collision) {
